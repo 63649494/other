@@ -1,94 +1,102 @@
 #include<stdio.h>
 #include<malloc.h>
-#include<stdlib.h>  //Е▄┘Е░╚И ▐Ф°╨Ф∙╟Г └Е╨⌠
+#include<stdlib.h>  //╟Э╨╛кФ╩ЗйЩ╣д©Б
 #define N 512
 #define T 50
 typedef struct {
-    int PID;    //Г╗▀Е╨▐ID
-    int Status;     //Х©⌡Г╗▀Г┼╤Ф─│О╪▄Х©░Х║▄Е╟╠Г╩╙1Е▓▄Г╜┴Е╬┘0
-    int Time_Slice; //Х©⌡Г╗▀Ф┴─И°─Ф≈╤И≈╢Г┴┤О╪▄Д╩▌О╪┬0О╪▄200О╪┴И≈╢Е┬├И┘█
+    int PID;    //ЁлпРID
+    int Status;     //╫ЬЁлв╢л╛ё╛ткпп╬мпВ1╨м╣х╢Щ0
+    int priority;   //╫ЬЁлсеох╪╤ё╛р╩╧╡сп5╦Ж╣х╪╤ё╛╢с[1ё╛5]╪Д╥жеД
+    int Time_Slice; //╫ЬЁлкЫпХй╠╪Дф╛ё╛╢сё╗0ё╛200ё╘╪Д╥жеД
     }PCB_Node;
 
 typedef struct {
-    PCB_Node *Node;     //Х©⌡Г╗▀Г╩└
-    int rear;           //И≤÷Е╟╬
-    int front;          //И≤÷Е╓╢
+    PCB_Node *Node;     //╫ЬЁлвИ
+    int rear;           //╤сн╡
+    int front;          //╤см╥
     }PQueue;
 
-void ShowN(PCB_Node *p){        //Х╬⌠Е┤╨Х©⌡Г╗▀Г └Д©║Ф│╞
-    printf("Ф╜╓Х©⌡Г╗▀Г └PIDД╦╨%d\n",p->PID);
-    printf("Ф╜╓Х©⌡Г╗▀Г └Е╫⌠Е┴█Г┼╤Ф─│Д╦╨%d\n",p->Status);
-    printf("Ф╜╓Х©⌡Г╗▀Г └Е╫⌠Е┴█Ф┴─И°─Ф≈╤И≈╢Г┴┤Д╦╨%d\n",p->Time_Slice);
+void ShowN(PCB_Node *p){        //йДЁЖ╫ЬЁл╣дпео╒
+    printf("╢к╫ЬЁл╣дPIDн╙%d\n",p->PID);
+    printf("╢к╫ЬЁл╣д╣╠г╟в╢л╛н╙%d\n",p->Status);
+    printf("╢к╫ЬЁл╣дсеох╪╤н╙%d\n",p->priority);
+    printf("╢к╫ЬЁл╣д╣╠г╟кЫпХй╠╪Дф╛н╙%d\n",p->Time_Slice);
     }
 
-PCB_Node CreateN(int n)        //Е┬⌡Е╩╨Д╦─Д╦╙Х©⌡Г╗▀
+PCB_Node CreateN(int n)        //╢╢╫╗р╩╦Ж╫ЬЁл
 {
     PCB_Node p;
     p.PID=n;
     p.Status=1;
+    p.priority=rand()%5+1;
     p.Time_Slice=rand()%200+1;
     ShowN(&p);
     return p;
 }
 
-void InitQueue(PQueue &Q){      //Е┬²Е╖▀Е▄√И≤÷Е┬≈
+void InitQueue(PQueue &Q){      //ЁУй╪╩╞╤сап
     Q.Node = (PCB_Node*)malloc(N*sizeof(PCB_Node));
     if(!Q.Node) return;
     Q.front=Q.rear=0;
     }
 
-void AddQ(PQueue &PtrQ,PCB_Node item){          //Е╟├Ф√╟Х©⌡Г╗▀Е┼═Е┘╔И≤÷Е╟╬
+void AddQ(PQueue &PtrQ,PCB_Node item){          //╫╚пб╫ЬЁл╪схК╤сн╡
     if((PtrQ.rear+1)%N==PtrQ.front)
         {
-            printf("И≤÷Е┬≈Е╥╡Ф╩║\n");
+            printf("╤сапрябЗ\n");
             return;
             }
     PtrQ.rear=(PtrQ.rear+1)%N;
     PtrQ.Node[PtrQ.rear]=item;
     }
 
-int QueueLength(PQueue Q){          //Х©■Е⌡·И≤÷Е┬≈Г └И∙©Е╨╕
+int QueueLength(PQueue Q){          //╥╣╩ь╤сап╣дЁ╓╤х
     return (Q.rear-Q.front+N)%N;
     }
 
-void DeQueue(PQueue &Q,PCB_Node &e){        //Е╟├Г╛╛Д╦─Д╦╙Х©⌡Г╗▀Е┤╨И≤÷
+void DeQueue(PQueue &Q,PCB_Node &e){        //╫╚╣зр╩╦Ж╫ЬЁлЁЖ╤с
     if(Q.front == Q.rear){
-        printf("Е┤╨Е┬≈И■≥Х╞╞О╪▄И≤÷Е┬≈Д╦╨Г╘╨!\n");
+        printf("ЁЖап╢МнСё╛╤сапн╙©у!\n");
         return;
     }
     e=Q.Node[Q.front];
     Q.front=(Q.front+1)%N;
     }
 
-void run(PQueue &wait,PCB_Node p){          //Х©░Х║▄Ф▌╔Е▐≈Г └Х©⌡Г╗▀
-    printf("PIDД╦╨%dГ └Х©⌡Г╗▀Е╪─Е╖▀Х©░Х║▄\n",p.PID);
-    if(p.Time_Slice>T){                     //Х▀╔Х©⌡Г╗▀Ф┴─И°─Г └Ф≈╤И≈╢Г┴┤Е╓╖Д╨▌И╒└Х╝╬Г └50
-        p.Time_Slice=p.Time_Slice-T;        //Е▌÷Ф°┴Ф≈╤И≈╢Г┴┤Е┤▐Е▌╩50
-        AddQ(wait,p);                       //Е┼═Е┘╔Г╜┴Е╬┘И≤÷Е┬≈
-        printf("PIDД╦╨%dГ └Х©⌡Г╗▀Х©⌡Е┘╔Г╜┴Е╬┘\n",p.PID);
+void run(PQueue &wait,PCB_Node p){          //ткпп╫сйэ╣д╫ЬЁл
+    printf("PIDн╙%d╣д╫ЬЁл©╙й╪ткпп\n",p.PID);
+    int i=rand()%100;
+    if(i<3){                               //3%╪╦бй╥╒иЗрЛЁё
+        AddQ(wait,p);                       //╪схК╣х╢Щ╤сап
+        printf("PIDн╙%d╣д╫ЬЁл╫ЬхК╣х╢Щ\n",p.PID);
+    }
+    if(p.Time_Slice>T){                     //хТ╫ЬЁлкЫпХ╣дй╠╪Дф╛╢Ссзт╓иХ╣д50
+        p.Time_Slice=p.Time_Slice-T;        //т╜спй╠╪Дф╛╪Ух╔50
+        AddQ(wait,p);                       //╪схК╣х╢Щ╤сап
+        printf("PIDн╙%d╣д╫ЬЁл╫ЬхК╣х╢Щ\n",p.PID);
         }
-    else printf("PIDД╦╨%dГ └Х©⌡Г╗▀Х©░Х║▄Е╝▄Ф╞∙\n",p.PID);       //Х©⌡Г╗▀Ф┴─И°─Ф≈╤И≈╢Г┴┤Е╟▐Д╨▌50О╪▄Г⌡╢Ф▌╔Ф┴╖Х║▄Е╝▄Ф╞∙
+    else printf("PIDн╙%d╣д╫ЬЁлткппмЙ╠о\n",p.PID);       //╫ЬЁлкЫпХй╠╪Дф╛п║сз50ё╛ж╠╫сж╢ппмЙ╠о
     }
 
 int main(){
-    PQueue ready;       //Е┬⌡Е╩╨Е╟╠Г╩╙И≤÷Е┬≈
-    InitQueue(ready);   //Е┬²Е╖▀Е▄√Е╟╠Г╩╙И≤÷Е┬≈
-    for(int i=1;i<=N;i++){       //Е┬⌡Е╩╨NД╦╙Х©⌡Г╗▀О╪▄Е╧╤Е┼═Е┘╔Е╟╠Г╩╙И≤÷Е┬≈
+    PQueue ready;       //╢╢╫╗╬мпВ╤сап
+    InitQueue(ready);   //ЁУй╪╩╞╬мпВ╤сап
+    for(int i=1;i<=N;i++){       //╢╢╫╗N╦Ж╫ЬЁлё╛╡╒╪схК╬мпВ╤сап
         PCB_Node a=CreateN(i);
         AddQ(ready,a);
         }
-    PQueue wait;        //Е┬⌡Е╩╨Г╜┴Е╬┘И≤÷Е┬≈
-    InitQueue(wait);    //Е┬²Е╖▀Е▄√Г╜┴Е╬┘И≤÷Е┬≈
-    for(int j=0;QueueLength(ready)!=0||QueueLength(wait)!=0;j++){     //Е┬╓Ф√╜Е╟╠Г╩╙И≤÷Е┬≈Е▓▄Г╜┴Е╬┘И≤÷Е┬≈Ф≤╞Е░╕Х©≤Ф°┴Ф°╙Ф┴╖Х║▄Г └Х©⌡Г╗▀О╪▄Ф°┴Е┬≥Х©░Х║▄О╪▄Ф≈═Е┬≥Г╗▀Е╨▐Г╩⌠Ф²÷
-        if(QueueLength(wait)==0){       //Е┬╓Ф√╜Г╜┴Е╬┘И≤÷Е┬≈Ф≤╞Е░╕Ф°┴Х©⌡Г╗▀
-            PCB_Node e;                 //Г╜┴Е╬┘И≤÷Е┬≈Д╦╜Ф╡║Ф°┴Х©⌡Г╗▀
-            DeQueue(ready,e);           //Е╟├Е╟╠Г╩╙И≤÷Е┬≈Г └Г╛╛Д╦─Д╦╙Х©⌡Г╗▀Е┤╨И≤÷
-            run(wait,e);                //Х©░Х║▄Х©⌡Г╗▀
+    PQueue wait;        //╢╢╫╗╣х╢Щ╤сап
+    InitQueue(wait);    //ЁУй╪╩╞╣х╢Щ╤сап
+    for(int j=0;QueueLength(ready)!=0||QueueLength(wait)!=0;j++){     //еп╤о╬мпВ╤сап╨м╣х╢Щ╤сапйг╥Я╩╧спн╢ж╢пп╣д╫ЬЁлё╛сптРткппё╛нчтРЁлпР╫АйЬ
+        if(QueueLength(wait)==0){       //еп╤о╣х╢Щ╤сапйг╥Ясп╫ЬЁл
+            PCB_Node e;                 //╣х╢Щ╤сапжпц╩сп╫ЬЁл
+            DeQueue(ready,e);           //╫╚╬мпВ╤сап╣д╣зр╩╦Ж╫ЬЁлЁЖ╤с
+            run(wait,e);                //ткпп╫ЬЁл
             }
         else {
-                PCB_Node e;             //Г╜┴Е╬┘И≤÷Е┬≈Д╦╜Ф°┴Х©⌡Г╗▀О╪▄Е┘┬Ф┴╖Х║▄Г╜┴Е╬┘И≤÷Е┬≈Д╦╜Г └Х©⌡Г╗▀
-                DeQueue(wait,e);        //Е╟├Г╜┴Е╬┘И≤÷Е┬≈Г └Г╛╛Д╦─Д╦╙Х©⌡Г╗▀Е┤╨И≤÷
-                run(wait,e);            //Х©░Х║▄Х©⌡Г╗▀
+                PCB_Node e;             //╣х╢Щ╤сапжпсп╫ЬЁлё╛охж╢пп╣х╢Щ╤сапжп╣д╫ЬЁл
+                DeQueue(wait,e);        //╫╚╣х╢Щ╤сап╣д╣зр╩╦Ж╫ЬЁлЁЖ╤с
+                run(wait,e);            //ткпп╫ЬЁл
             }
         }
     return 0;
