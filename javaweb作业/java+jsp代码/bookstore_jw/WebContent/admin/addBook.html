@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=GBK">
+<script type="text/javascript">
+function ret(){		//返回上一页
+	window.location.href="bookManage.jsp";
+}
+function sub(){
+	if(document.form1.id.value==""){
+		alert("请输入图书的id编号。");
+	}else if(document.form1.goodsName.value==""){
+		alert("请输入书名。");
+	}else if(document.form1.price.value==""){
+		alert("请输入图书的价格。");
+	}else{
+		document.form1.submit();
+	}
+}
+function fun_check_from(){
+}
+function checkIsFloat(){	//只能阻止字母空格符号输入，但不能阻止中文输入，遇到中文输入法就完蛋
+	var nc = event.keyCode;
+	if(nc<48||nc>57){
+		if(nc==46){
+			var s = document.form1.price.value;
+			for(var i=0;i<s.length;i++)
+			{
+				if(s.charAt(i)=='.'){
+					event.keyCode=0;
+					return;
+				}
+			}
+		}else{
+			event.keyCode=0;
+			return;
+	}
+	}
+}
+function res(){
+	document.getElementById("goodsName").value="";
+	document.getElementById("id").value="";
+	document.getElementById("goodsType").value="";
+	document.getElementById("price").value="";
+	document.getElementById("quantity").value="";
+	
+}
+</script>
+<title>网上书店后台管理系统</title>
+</head>
+<body>
+<form method="post" name="form1" action="AddBookServlet">
+<table align="center">
+			<tr>
+		<td>新增图书信息</td>
+	</tr>
+	<tr >
+		<td>
+			<table>
+				<tr>
+					<td>图书名称:</td>
+					<td><input type="text" name="goodsName" id="goodsName"></td>
+				</tr>
+				<tr>
+					<td>id:</td>
+					<td><input type="text" name="id" id="id"></td>
+				</tr>
+				<tr>
+					<td>商品类型:</td>
+					<td><select name="goodsType" id="goodsType">
+							<option value=""></option>
+							<option value="1">电子设备</option>
+							<option value="2">鲜花系列</option>
+							<option value="3">水果类型</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>价格:</td>
+					<td><input type="text" name="price" id="price" onKeyPress="checkIsFloat()">￥(100以内)</td>
+				</tr>
+				<tr>
+					<td>库存量:</td>
+					<td><input type="text" name="quantity" id="quantity">(本/套)</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<button  type="button" onClick="ret()" style="width:20%">返回</button>&nbsp;	<!-- 必须写type="button"，否则会自动提交 -->
+			<button  type="button" onClick="res()" style="width:20%">重置</button>&nbsp;
+			<button  type="button" onClick="sub()" style="width:20%">提交</button>
+		</td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

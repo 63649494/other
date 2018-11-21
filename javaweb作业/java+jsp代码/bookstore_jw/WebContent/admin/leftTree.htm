@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script src="../js/jquery-1.8.3.min.js"></script>
+    <script src="../js/MzTreeView10.js"></script>	<!-- 梅花树js -->
+</head>
+<style type="text/css">
+A.MzTreeView
+{font-size:9pt;
+padding-left:20px;
+}
+</style>
+<body>
+    <script type="text/javascript">
+var tree = new MzTreeView("tree");
+tree.icons["bookopen.gif"] = "bookopen.gif";
+tree.icons["book.gif"] = "book.gif";
+tree.setIconPath("../images/TreeView/");	//最后一个'/'必须加
+tree.nodes["0_1"] = "text:网站管理;icon:bookopen.gif";
+tree.nodes["1_100"] = "text:图书管理;icon:book.gif";
+tree.nodes["1_200"] = "text:用户管理;";
+tree.nodes["100_1001"] = "text:添加图书;url:addBook.html";
+tree.nodes["100_1002"] = "text:图书信息一览;url:SearchBookAdminServlet";
+tree.nodes["200_2001"] = "text:添加新用户;url:addUser.html";
+tree.nodes["200_2002"] = "text:用户信息一览;url:SearchUserServlet";
+tree.setTarget("frmMain");
+document.write(tree.toString());
+    </script>
+</body>
+</html>

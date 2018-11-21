@@ -1,0 +1,92 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=GBK">
+<script type="text/javascript">
+	function sub(){
+		var user = document.regist.userName.value;
+		var pass = document.regist.userPass.value;
+		var repass = document.regist.rePass.value;
+		if(user==null||user==""){
+			alert("请填写用户名");
+			doucument.regist.userName.focus();
+		}
+		else if(pass==null||pass==""){
+			alert("请填写密码");
+			doucument.regist.userPass.focus();
+		}
+		else if(repass==null||user==""){
+			alert("请填写确认密码");
+			doucument.regist.rePass.focus();
+		}
+		else if(pass!=repass){
+			alert("两次密码不相同，请重新填写");
+			document.regist.userPass.value="";
+			document.regist.rePass.value="";
+			document.regist.userPass.focus();
+		}
+		else{
+			doucument.regist.submit();
+		}
+	}
+	
+	function res(){	//这里一开始忘记加括号了，用浏览器的开发工具才看出来
+		document.getElementById("userName").value="";
+		document.getElementById("userPass").value="";
+		document.getElementById("rePass").value="";
+		var chs = document.getElementByName("role");
+		for(var i=0;i<chs.length;i++){
+				chs[i].status = 'false';
+		}
+	}
+</script>
+<title>网上书店后台管理系统</title>
+</head>
+<body>
+<form method="post" name="regist" action="AddUserServlet">
+<center>
+<table>
+	<tr align="center" valign="middle"><!--内容 -->
+		<td>
+		<table style="width:300" cellSpacing=0 cellPadding=0 border=0 align="center">
+			<TBODY>
+			<tr valign="middle">
+				<td class="title_td" height=12>新增用户信息</td>
+			</tr>
+			<tr>
+				<table style="width:300">
+					<tr>
+						<td class="item_td" width="26%">用户名：</td>
+						<td class="input_td"><input type="text" name="userName" value="" style="width:100%" class="input_input" size=30></td>
+					</tr>
+					<tr>
+						<td class="item_td" width="26%">密码：</td>
+						<td class="input_td"><input type="password" name="userPass" value="" style="width:100%" class="input_input" size=30></td>
+					</tr>
+					<tr>
+						<td class="item_td" width="26%">确认密码：</td>
+						<td class="input_td"><input type="password" name="rePass" value="" style="width:100%" class="input_input" size=30></td>
+					</tr>
+					<tr>
+						<td class="item_td" width="26%">用户类别：</td>
+						<td class="input_td">
+							<input type="radio" name="role" value="0" checked>普通用户&nbsp;
+							<input type="radio" name="role" value="1" >管理员&nbsp;
+						</td>
+					</tr>
+				</table>
+	</tr>
+	<tr><!-- 按钮 -->
+	<td colspan="2" align="center">&nbsp;
+		<button onClick="res()" style="width:20%">重置</button>&nbsp;
+		<button onClick="sub()" style="width:20%">提交</button>&nbsp;
+	</td>
+	</tr>
+	</TBODY>
+		</table>
+		</td>
+	</tr>
+</table>
+</center>
+</form>
+</body>
+</html>

@@ -1,0 +1,1 @@
+INSERT INTO goods(id,goodsName,goodsType,price,quantity) VALUES(123,1,1,1,132)

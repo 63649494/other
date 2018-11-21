@@ -1,0 +1,5 @@
+admin 	——存放后台管理的所有界面
+css		——存放所有CSS样式表
+images	——存放项目中所有图片
+js 		——存放所有JS脚本
+welcome.jsp		——在WebContent根目录下，存放所有前台的所有界面

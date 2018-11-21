@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript">
+//全局变量
+	var flag = 0;
+	function sub(){
+		var username = document.getElementById("username").value;
+		var password = document.getElementById("password").value;
+		var passwordAgain = document.getElementById("passwordAgain").value;
+	//登录用户信息判断
+	if(username!=null&&password!=null&&passwordAgain!=null){
+		if(flag>=3){
+			//验证成功，表单提交
+			document.regist.submit();
+		}else {
+			alert("请认真填写注册信息！");
+			document.getElementById("username").value = "";
+			document.getElementById("password").value = "";
+			document.getElementById("passwordAgain").value = "";
+			document.getElementById("usName").innerHTNL = "";
+			document.getElementById("ps1").innerHTNL = "";
+			document.getElementById("ps2").innerHTNL = "";
+			
+			}
+		
+		}
+		
+	}
+	function res(){
+		document.getElementById("username").value = "";
+		document.getElementById("password").value = "";
+		document.getElementById("passwordAgain").value = "";
+	}
+	
+	function chang1(obj){
+		var obValue = obj.value;
+		if(obValue.length>8||obValue.length<3){
+			document.getElementById("usName").innerHTNL = "<font name='usName' style='front-size:12px;color=red'>长度要求3~8位！</font>";
+			flag = 0;	
+		} else {
+			document.getElementById("usName").innerHTNL = "<font name='usName' style='front-size:12px;color=red'>可以使用！</font>";
+			flag++;
+			}
+	}
+	
+	function chang2(obj){
+		var obValue = obj.value;
+		if(obValue.length>8||obValue.length<3){
+			document.getElementById("ps1").innerHTNL = "<font name='usName' style='front-size:12px;color=red'>长度要求3~8位！</font>";
+			flag = 0;	
+		} else {
+			document.getElementById("ps1").innerHTNL = "<font name='usName' style='front-size:12px;color=red'>可以使用！</font>";
+			flag++;
+			}
+	}
+
+	function chang3(obj){
+		var obValue = obj.value;
+		if(obValue.length>8||obValue.length<3){
+			document.getElementById("ps2").innerHTNL = "<font name='usName' style='front-size:12px;color=red'>请再次确认！</font>";
+			flag = 0;	
+		} else {
+			document.getElementById("ps2").innerHTNL = "<font name='usName' style='front-size:12px;color=red'>通过！</font>";
+			flag++;
+			}
+	}
+</script>
+
+<title>网上书店系统</title>
+</head>
+<body>
+<form method="POST" name="regist" action="RegistServlet">
+<table style="height:100%;width:100%">
+	<tr align="center" valign="middle">
+		<td>
+		<table width="392" height="200" border=0 align="center" cellPadding=0 cellSpacing=0 style="background-image:url(); height:200;width:392">
+		<tbody>
+		<tr valign="middle" align="center">
+			<td colSpan=3 height=40 valign="middle" align="center">
+			<font  face="黑体" size="4px"
+			color="#196ed1" style="padding-left:20px;vertical-align: middle">用户注册</font>
+		</td>
+		</tr>
+		<tr>
+		<td width="80" height="20" class="login_td">&nbsp;&nbsp;&nbsp;登录名: </td>
+		<td width="120" height="20" class="login_td">
+			<input type="text" name="username"
+			id="username" value=""
+			style="WIDTH:110px"
+			onChange="chang1(this)"></td>
+			<td id="usName">
+		</tr>
+		<tr>
+		<td height="20" class="login_td">
+		&nbsp;&nbsp;&nbsp;密 码:
+		</td>
+		<td height="20" class="login_td">
+		<input type="password"
+		name="password" id="password" value="" 
+		style="WIDTH:110px"
+		onChange="chang2(this)"></td>
+		<td id="ps1"></td>
+		</tr>
+		<tr>
+			<td height="20" class="login_td">
+			&nbsp;&nbsp;&nbsp;确认密码:
+			</td>
+			<td height="20" class= "login_td">
+			<input type="password"
+			name="passwordAgain" id="passwordAgain" value=""
+			style="WIDTH: 110px"
+			onChange="chang3(this)"></td>
+			<td id="ps2"></td>
+		</tr>
+		
+		<tr>
+			<td height="20" colspan="2" align="center">
+			<button class="login_button" onClick="res()">重置</button>
+			&nbsp;
+			<button class="login_buttion" onClick="sub()">提交</button>
+			&nbsp;</td>
+			<td class="login_td" align="left" width=81><a href="login.jsp">返回</a></td>
+		</tr>
+		</tbody>
+		</table>
+		
+		</td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,5 @@
+db	——存放数据库操作类
+entity	——存放实体类
+filter	——存放过滤器
+listener	——存放监听器
+servlet.admin	——servlet存放前台servlet，admin存放后台servlet
